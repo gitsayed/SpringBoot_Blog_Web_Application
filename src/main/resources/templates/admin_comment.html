@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"  
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	
+<head>
+    <title>Blog Comment Section </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"  />
+ <style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10pt;
+}
+</style>
+</head>
+<body>
+<div class="container">
+	
+	<div class="col-md-7" style="padding-top:20px" >
+		  <a th:href="@{/api/v1/admin/}" class="btn btn-primary">DashBoard</a>
+	</div>
+
+	<div class="col-md-4">
+		<h3 th:inline="text">Blogger || [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
+	<div class="col-md-1" style="padding:20px">
+		<form th:action="@{/logout}" method="post">
+			<button type="submit"  class="btn btn-danger">Log Out</button>
+		</form>
+	</div>
+  <div>
+  <h2 style= "text-align:center"> Blog Detail Information </h2>
+  <table th:each = "dto : ${dto}" >
+  <tr>  <td >Blog ID  </td><td th:text="${dto.blog.blog_id}"></td> </tr>
+  <tr>  <td >Title   </td><td th:text="${dto.blog.title}"></td> </tr>
+  <tr>  <td >Description  </td><td th:text="${dto.blog.details}"></td> </tr>
+  
+  </table>
+  </div>
+    <br/><br/>
+    <div style="padding:20px; wide:50%">
+    <table style="text-align:center; border:1px">
+		<tr >
+		    <th style="text-align:center">Blogger</th>
+		    <th style="text-align:center">Comments</th>		    
+		</tr>  
+    	<tr th:each = "comment, iterStat: ${dto.commentList}">
+    		<td th:text="${comment.username} "></td>
+    		<td th:text="${comment.description}"></td>    		
+    	</tr>
+    </table>
+<!-- <a href="/api/v1/books/form" class="btn btn-primary">Add Book</a> -->
+	</div> 
+	   
+</div>
+<!-- th:each = "dto : ${dto}" -->
+<div class ="container" th:each = "dto : ${dto}">
+
+<form th:object="${cmt}" th:action="@{/api/v1/admin/blog/comment}"
+  method="post" >
+<label>Post your Comments :</label>
+<textarea   th:field="${cmt.description}"> 				</textarea>
+<input th:type="hidden"  th:field="${cmt.blog_id}" 	 	/>
+<!-- th:hidden="true" style="display:none;" -->
+<input  type="submit" class="btn btn-primary" value="Submit" />
+</form>
+</div>
+</body>
+</html>

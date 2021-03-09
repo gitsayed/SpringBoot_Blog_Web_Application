@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Account Create Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+<body>
+<br/><br/>
+<a th:href="@{/api/v1/admin/}" class="btn btn-danger">Dashboard</a>
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+	<h1>Account Create Form</h1>
+	<p th:if="${sms != null}"> <span style="color:red" id="sms" th:text="${sms}"></span>
+	
+		<form th:object="${bloggerForm}"
+			th:action="@{/api/v1/admin/ac/create}" action="#" method="post">
+			Usename : <input type="text" th:field="*{username}"
+				class="form-control" placeholder="Username" />
+			<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
+				Error</p>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			Password : <input type="password" th:field="*{password}"
+				class="form-control" placeholder="Password" />
+			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
+				Error</p>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<span> Select Blogger ROLE </span> <select th:field="*{role}"
+				class="form-control">
+				<option value=""></option>
+				<option th:value="ADMIN" th:text="ADMIN"></option>
+				<option th:value="USER" th:text="USER"></option>
+			</select>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<span> Select Account Status </span> <select th:field="*{isactive}"
+				class="form-control">
+				<option value=""></option>
+				<option th:value="Y" th:text="Activate"></option>
+				<option th:value="N" th:text="Deactivate"></option>
+			</select>
+			<div style="clear: both; display: block; height: 10px;"></div>
+
+<br/> 
+<p style="text-align: center">
+			<input   type="submit" class="btn btn-primary" value="Save"></input>
+		</p>
+		</form>
+	</div>
+</body>
+</html>

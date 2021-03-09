@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<title>Blog Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-7">
+			<br /> <a href="/api/v1/admin/" class="btn btn-danger">Dashboard</a>
+		</div>
+
+		<div class="col-md-4">
+			<h3 th:inline="text">Blogger :
+				[[${#httpServletRequest.remoteUser}]]</h3>
+		</div>
+		<div class="col-md-1" style="padding: 20px">
+			<form th:action="@{/logout}" method="post">
+				<button type="submit" class="btn btn-danger">Log Out</button>
+			</form>
+		</div>
+	</div>
+
+
+	<div class="container" style="text-align: center">
+		<h1>
+			Blog Information <span th:text="${info} "> </span> Form
+		</h1>
+
+
+
+	</div>
+	<div class="container">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<form th:object="${blog}" th:action="@{../{ctx}(ctx=${ctx})}"
+				th:method="post"> 
+				<div style="font-weight: bold; clear: both; display: block; height: 25px;">
+				Blog ID</div> 
+				<input type="text" th:readonly="true" th:field="${blog.blog_id}"
+					class="form-control" placeholder="BLOG ID" />
+				<div style="font-weight: bold; clear: both; display: block; height: 25px;">
+				Title</div>
+				<input th:required="true" type="text" th:field="${blog.title}"
+					class="form-control" placeholder=" Blog Tilte" />
+				<div style="font-weight: bold; clear: both; display: block; height: 25px;">
+				Details</div>
+				<textarea th:required="true" th:field="${blog.details}"
+					class="form-control" placeholder="Blog Details"></textarea>
+				<div style="font-weight: bold; clear: both; display: block; height: 25px;">
+				Create Date</div>
+				<input th:readonly="true" type="text" th:field="${blog.createat}"
+					class="form-control" placeholder="Create Date " />
+				<div style="font-weight: bold; clear: both; display: block; height: 25px;">
+				   Update Date
+				</div>
+				<input th:readonly="true" type="text" th:field="${blog.updateat}"
+					class="form-control" placeholder="Update Date" />
+				 
+				<div style="font-weight: bold; clear: both; display: block; height: 25px;">
+				 Blogger Name </div>
+				<input th:readonly="true" type="text" th:field="${blog.username}" class="form-control" />
+				<input th:readonly="true" type="hidden" th:field="${blog.isactive}"
+					class="form-control" />
+				<br/>
+				<p style="text-align: center">
+					<input type="submit" class="btn btn-primary" value="Save"></input>
+				</p>
+			</form>
+		</div>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+     
+<title>Square Health Blog</title>
+</head>
+<body>
+<div class="comtainer"> <br/>
+<a th:href="@{/login}" class="btn btn-primary"> Login</a>
+&emsp;
+<a th:href="@{/signup/}" class="btn btn-primary"> Sign Up</a>
+<br/>
+
+
+
+<div class="container" th:if="${blogs != null}" >
+		<h1  style="text-align: center"> Welcome</h1>
+		<h2  style="text-align: center"> Square	Health Blog App</h2>
+		
+		<div th:each="b:*{blogs}">
+			<h3
+				style="text-align: center; padding: 5px; border: 3pt; border-color: red"
+				class=" border border-primary" th:text="${b.title}"></h3>
+			<p style="text-align: center; padding: 5px; border: 3px"
+				th:text="${b.details}"></p>
+			<h3
+				style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Blogger Name : <span th:text=" ${b.username}"></span>
+			</h3>
+
+			<p style="text-align: center;">
+			
+					<a class="btn btn-success"
+					th:href="@{/api/v2/blogs/view/{id}(id=${b.blog_id})}">
+					View Comments </a>
+			</p>
+			<hr/>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

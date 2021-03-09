@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<title>Blog :: [[${#httpServletRequest.remoteUser}]]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-7" style="padding-top: 20px">
+			<a th:href="@{/api/v1/admin/myblogs}" class="btn btn-primary">My Blogs</a>
+			<a th:href="@{/api/v1/admin/form/0}" class="btn btn-primary">Post A Blog</a>
+			 <a	th:href="@{/api/v1/admin/}" class="btn btn-primary">All Blogs</a>
+			  <a th:href="@{/api/v1/admin/blogger}" class="btn btn-primary">
+			  View	Blogger</a>
+			   <a th:href="@{/api/v1/admin/ac/create/form}"
+				class="btn btn-primary">Create Account</a>
+
+		</div>
+
+
+		<div class="col-md-4">
+			<h4 th:inline="text">Welcome ||
+				[[${#httpServletRequest.remoteUser}]]</h4>
+		</div>
+		<div class="col-md-1" style="padding: 20px">
+			<form th:action="@{/logout}" method="post">
+				<button type="submit" class="btn btn-danger">Log Out</button>
+			</form>
+		</div>
+	</div>
+	<div class="container">
+
+		<h2 th:if="${blogs != null}" style="text-align: center">Square
+			Health Blog App</h2>
+		
+		<div th:each="b:*{blogs}">
+			<h3
+				style="text-align: center; padding: 5px; border: 3pt; border-color: red"
+				class=" border border-primary" th:text="${b.title}"></h3>
+			<p style="text-align: center; padding: 5px; border: 3px"
+				th:text="${b.details}"></p>
+			<h3
+				style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Blogger Name : <span th:text=" ${b.username}"></span>
+			</h3>
+
+			<p style="text-align: center;">
+				<a class="btn btn-danger" th:if="${b.isactive == 'Y'}"
+					th:href="@{/api/v1/admin/blog/{id}/{s}(id=${b.blog_id},s=${b.isactive})}">
+					Hide </a> <a class="btn btn-success" th:if="${b.isactive == 'N'}"
+					th:href="@{/api/v1/admin/blog/{id}/{s}(id=${b.blog_id},s=${b.isactive})}">
+					Approve & Publish </a> <a class="btn btn-primary"
+					th:href="@{/api/v1/admin/blog/delete/{id}(id=${b.blog_id})}">
+					Delete </a> <a class="btn btn-success"
+					th:href="@{/api/v1/admin/blog/view/{id}(id=${b.blog_id})}">
+					View Comments </a>
+			</p>
+			<hr/>
+		</div>
+	</div>
+
+	 <p style="text-align: center; font-weight: bolder"
+		 th:if="${ams != null}">
+		<span id="ams" th:text="${ams}"></span>
+		<script> 
+    	alert("Alert !  You can't do it ");</script>
+	</p>
+	<div class="container">
+		<h2 th:if="${buser != null}" style="text-align: center">Blogger
+			Details</h2>
+		</center>
+		<div th:each="u:*{buser}">
+			<h3	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Blogger ID : <span th:text=" ${u.user_id}"></span>
+			</h3>
+			<h3	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Blogger Name : <span th:text="${u.username}"></span>
+			</h3>
+			<h3	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Role : <span th:text=" ${u.role}"></span>
+			</h3>
+
+			<p>
+				<a class="btn btn-danger" th:if="${u.isactive == 'Y'}"
+					th:href="@{/api/v1/admin/ac/{id}/{s}(id=${u.user_id},s=${u.isactive})}">
+					Deactivate </a>
+				<a class="btn btn-success" th:if="${u.isactive == 'N'}"
+					th:href="@{/api/v1/admin/ac/{id}/{s}(id=${u.user_id},s=${u.isactive})}">
+					Activate </a>
+				<a class="btn btn-primary"
+					th:href="@{/api/v1/admin/ac/delete/{id}(id=${u.user_id})}">
+					Delete </a>
+
+			</p>
+			<hr />
+		</div>
+
+	</div>
+	
+		<div th:if="${myblogs != null}">	
+		<div th:each="b:*{myblogs}">
+		<h3 style="text-align: center"> My Blogs</h3>
+			<p style="text-align: center; font-weight: bolder">
+			<span	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Title : <span th:text=" ${b.title}"></span>
+			</span>
+			</p>
+			<p style="text-align: center; font-weight: bolder">
+			<span	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Details : <span th:text=" ${b.details}"></span>
+			</span></p>
+			<h4	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Blogger Name : <span th:text=" ${b.username}"></span>
+			</h4>
+			<h4	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+				Blog Status : <span style="color:blue" th:if="${b.isactive=='Y'}" th:text="Approved"></span>
+			    <span style="color:red" th:if="${b.isactive=='N'}" >Not Approved</span>
+			</h4>
+			<h4	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+			Create Date : <span th:text="${b.createat}"></span>
+			    
+			</h4>
+			<h4	style="text-align: center; padding: 5px; border: 3pt; border-color: red">
+			Update Date : <span  th:text="${b.updateat}"></span>
+			    
+			</h4>
+			<p style="text-align: center;">
+				 <a class="btn btn-success" 
+					th:href="@{/api/v1/admin/form/{id}(id=${b.blog_id})}">
+					Update </a>
+					<a class="btn btn-success"
+					th:href="@{/api/v1/admin/delete/{id}(id=${b.blog_id})}">
+					Delete </a> 
+					
+			</p>
+		</div>
+</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+</html>
